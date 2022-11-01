@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 30-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -29,40 +29,49 @@ const int MOD = 1e9 + 7;
 void solve() {
 	int n, q; cin >> n >> q;
 	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
 	for (int i = 0; i < n; ++i) {
 		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
-		}
-		else {
-			cnt2++;
-		}
-		sum += v[i];
 	}
 
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
-
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
-			}
-		}
-		else {
-			ans += cnt2 * val;
-
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
-			}
-		}
-		cout << ans<< endl;
+	vector<pair<int, int>>qu, qu_copy;
+	for (int i = 0; i < q; ++i) {
+		int k; cin >> k;
+		qu.push_back({k, i});
 	}
 
+	qu_copy = qu;
+	sort(all(qu));
+
+	map<int, int>ans;
+
+	int j = 0, tot = 0;
+	for (int i = 0; i < q; ++i) {
+
+		if (j == n) {
+			ans[qu[i].first] = tot;
+			continue;
+		}
+
+		while (j < n) {
+
+			if (v[j] <= qu[i].first) {
+				tot += v[j];
+				j++;
+			}
+			else {
+				ans[qu[i].first] = tot;
+				break;
+			}
+		}
+		if (j == n) {
+			ans[qu[i].first] = tot;
+		}
+	}
+
+	for (int i = 0; i < q; ++i) {
+		cout << ans[qu_copy[i].first] << " ";
+	}
+	cout << endl;
 }
 
 int32_t main() {

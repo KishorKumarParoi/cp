@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 31-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -27,42 +27,58 @@ const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
 void solve() {
-	int n, q; cin >> n >> q;
-	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
+	int n; cin >> n;
+	vector<int>v(n + 1);
+	int sum[n + 10] = {0};
+
+	for (int i = 1; i <= n; ++i) {
 		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
-		}
-		else {
-			cnt2++;
-		}
-		sum += v[i];
+		sum[i] = sum[i - 1] + v[i];
 	}
 
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
-
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
+	int ans = 0, ansIdx = 0, max_len = 0;
+	for (int i = 1; i <= n; ++i) {
+		int cnt = 1, segSum = 0;
+		for (int j = i + 1; j <= n; ++j) {
+			segSum += v[j];
+			if (segSum == sum[i]) {
+				cnt++;
+				segSum = 0;
 			}
+			// d(j) d(segSum) d(sum[i]) d(cnt) dl(ans)
 		}
-		else {
-			ans += cnt2 * val;
 
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
+		if (segSum == 0 && ans < cnt) {
+			int len = 0, segSum = 0;
+			max_len = i;
+			
+			for (int j = i + 1; j <= n; ++j) {
+				segSum += v[i];
+				len++;
+				if (segSum == sum[i]) {
+					max_len = max(len, max_len);
+					segSum = len = 0;
+				}
 			}
+			ans = max(ans, cnt);
+			ansIdx = i;
 		}
-		cout << ans<< endl;
 	}
 
+	max_len = ansIdx;
+	int  segSum = 0, len = 0;
+	// d(max_len) d(ansIdx) dl(ans)
+
+	for (int i = ansIdx + 1; i <= n; ++i) {
+		segSum += v[i];
+		len++;
+		if (segSum == sum[ansIdx]) {
+			max_len = max(len, max_len);
+			segSum = len = 0;
+		}
+	}
+
+	cout << max_len << endl;
 }
 
 int32_t main() {

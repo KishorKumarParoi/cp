@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 31-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -27,42 +27,60 @@ const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
 void solve() {
-	int n, q; cin >> n >> q;
-	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
-		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
-		}
-		else {
-			cnt2++;
-		}
-		sum += v[i];
+	string a, b; cin >> a >> b;
+	int i = 0, j = 0;
+
+	if (a == b) {
+		cout << "=" << endl;
 	}
-
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
-
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
+	else if (a[sz(a) - 1] == b[sz(b) - 1]) {
+		if (a[sz(a) - 1] == 'S') {
+			if (sz(a) > sz(b)) {
+				cout << "<" << endl;
+			}
+			else {
+				cout << ">" << endl;
 			}
 		}
 		else {
-			ans += cnt2 * val;
-
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
+			if (sz(a) > sz(b)) {
+				cout << ">" << endl;
+			}
+			else {
+				cout << "<" << endl;
 			}
 		}
-		cout << ans<< endl;
 	}
-
+	else if (a[sz(a) - 1] == 'S' || b[sz(b) - 1] == 'S') {
+		if (a[sz(a) - 1] == 'S' ) {
+			cout << "<" << endl;
+		}
+		else {
+			cout << ">" << endl;
+		}
+	}
+	else if (a[sz(a) - 1] == 'L' || b[sz(b) - 1] == 'L') {
+		if (a[sz(a) - 1] == 'L' ) {
+			cout << ">" << endl;
+		}
+		else {
+			cout << "<" << endl;
+		}
+	}
+	else {
+		if (a[sz(a) - 1] == 'L' && b[sz(b) - 1] == 'M') {
+			cout << ">" << endl;
+		}
+		else if (a[sz(a) - 1] == 'M' && b[sz(b) - 1] == 'L') {
+			cout << "<" << endl;
+		}
+		else if (a[sz(a) - 1] == 'S' && b[sz(b) - 1] == 'M') {
+			cout << "<" << endl;
+		}
+		else if (a[sz(a) - 1] == 'M' && b[sz(b) - 1] == 'S') {
+			cout << ">" << endl;
+		}
+	}
 }
 
 int32_t main() {

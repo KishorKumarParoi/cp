@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 26-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -27,42 +27,54 @@ const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
 void solve() {
-	int n, q; cin >> n >> q;
-	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
+	int n; cin >> n;
+	vector<int>v(n + 1);
+
+	for (int i = 1; i <= n; ++i) {
 		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
-		}
-		else {
-			cnt2++;
-		}
-		sum += v[i];
 	}
 
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
+	vector<pair<int, int>>ans;
+	int sum = 0, i = 1, f = 0;
 
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
-			}
+	for (; i < n; ++i) {
+		
+		if (v[i] == v[i + 1] && !f) {
+			ans.push_back(make_pair(i, i + 1));
+			++i;
 		}
 		else {
-			ans += cnt2 * val;
-
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
+			if (f) {
+				f = 0;
 			}
+			else {
+				f = 1;
+			}
+			ans.push_back({i, i});
+			sum += v[i];
 		}
-		cout << ans<< endl;
 	}
-
+	
+	// d(sum)
+	
+	if(i == n){
+		ans.push_back({n,n});
+		sum += v[n];
+	}
+	
+	// dl(sum)
+	
+	if (sum == 0) {
+		// cout << "Hello Jonogon ";
+		cout << sz(ans) << endl;
+		for (auto x : ans) {
+			cout << x.first << " " << x.second << endl;
+		}
+	}
+	else {
+		// cout << "Hello KKP ";
+		cout << -1 << endl;
+	}
 }
 
 int32_t main() {

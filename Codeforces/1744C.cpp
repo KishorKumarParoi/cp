@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 23-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -27,42 +27,28 @@ const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
 void solve() {
-	int n, q; cin >> n >> q;
-	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
-		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
+	int n; char c;
+	cin >> n >> c;
+	string s; cin >> s;
+
+	s = s + s;
+	
+	int last = -1;
+	for(int i = 2*n - 1; i >= n; i--){
+		if(s[i] == 'g'){
+			last = i;
 		}
-		else {
-			cnt2++;
-		}
-		sum += v[i];
 	}
-
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
-
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
-			}
+	
+	int ans = 0;
+	for(int i = n-1; i >= 0; i--){
+		if(s[i] == 'g') last = i;
+		if(s[i] == c){
+			ans = max(ans, last - i);
 		}
-		else {
-			ans += cnt2 * val;
-
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
-			}
-		}
-		cout << ans<< endl;
 	}
-
+	
+	cout << ans << endl;
 }
 
 int32_t main() {

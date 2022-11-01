@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 23-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -27,42 +27,43 @@ const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
 void solve() {
-	int n, q; cin >> n >> q;
-	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
-		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
+	int n; cin >> n;
+	vector<int>a(n+1, 0);
+
+	int twos = 0;
+	for(int i = 1; i <= n; ++i){
+		int x ; cin >> x;
+		
+		while(x % 2 == 0){
+			twos++;
+			x /= 2;
 		}
-		else {
-			cnt2++;
+		
+		x = i;
+		while(x % 2 == 0){
+			x /= 2;
+			a[i]++;
 		}
-		sum += v[i];
 	}
-
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
-
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
-			}
-		}
-		else {
-			ans += cnt2 * val;
-
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
-			}
-		}
-		cout << ans<< endl;
+	
+	// print(a)
+	int cnt = 0;
+	
+	sort(a.rbegin(),a.rend());
+	// print(a)
+	
+	for(auto x : a){
+		if(twos >= n) break;
+		cnt++;
+		twos += x;
 	}
-
+	
+	if(twos < n) {
+		cout << -1 << endl;
+	}
+	else{
+		cout << cnt << endl;
+	}
 }
 
 int32_t main() {

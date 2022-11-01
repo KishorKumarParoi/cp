@@ -1,14 +1,14 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 22-10-22
+// 29-10-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
 
 #define endl "\n"
-#define int unsigned long long
+#define int long long
 #define sz(s) (int)s.size()
 #define pi acos(-1.0)
 #define fr(i,a,b)                         for(int i=a;i<=b;++i)
@@ -27,42 +27,52 @@ const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
 void solve() {
-	int n, q; cin >> n >> q;
+	int n; cin >> n;
+	string s; cin >> s;
 	vector<int>v(n);
-	int cnt1 = 0, cnt2 = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
+
+	int one = 0;
+
+	for (int i = 0 ; i < n; ++i) {
 		cin >> v[i];
-		if (v[i] & 1) {
-			cnt1++;
+		if (s[i] == '1') {
+			one++;
 		}
-		else {
-			cnt2++;
-		}
-		sum += v[i];
 	}
 
-	int ans = sum;
-	while (q--) {
-		int type, val; cin >> type >> val;
+	int ans = 0;
+	for (int i = 0; i < n - 1; ++i) {
+		if (s[i] == '0') {
+			if (s[i + 1] == '0') {
+				continue;
+			}
+			else {
+				int mini = INT_MAX, sum = 0;
+				sum += v[i];
+				mini = min(mini, v[i]);
+				i++;
 
-		if (type & 1) {
-			ans += cnt1 * val;
-			if(val & 1){
-				cnt1 = 0;
-				cnt2 = n;
+				while (s[i] == '1') {
+					sum += v[i];
+					mini = min(mini, v[i]);
+					i++;
+				}
+
+				ans += sum - mini;
+				i--;
+				// d(i)  d(v[i]) dl(ans)
 			}
 		}
-		else {
-			ans += cnt2 * val;
-
-			if (val & 1) {
-				cnt1 = n;
-				cnt2 = 0;
-			}
+		else{
+			ans += v[i];
 		}
-		cout << ans<< endl;
 	}
 
+	if (one == n) {
+		ans = accumulate(all(v), 0);
+	}
+
+	cout << ans << endl;
 }
 
 int32_t main() {
