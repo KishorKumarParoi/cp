@@ -6,7 +6,7 @@
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
-            
+
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -26,48 +26,38 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-    int n; cin >> n;
-    vector<int>v(n+1);
-    int sum[n+10] = {0};
-    
-    for(int i = 1; i <= n; ++i){
-    	cin >> v[i];
-    	sum[i] += sum[i-1] + v[i];
-    }
-    
-    int ans = n;
-    for(int i  = 1; i <= n; ++i){
-    	int cnt = 0, cur = 0, tot = 0, thick = 0;
-    	bool ok = true;
-    	
-    	for(int j = 1; j <= n; ++j){
-    		cur += v[j];
-    		cnt++;
-    		if(cur > sum[i]){
-    			ok = false;
-    			break;
-    		}
-    		if(cur == sum[i]){
-    			thick = max(cnt, thick);
-    			cur = 0;
-    			cnt = 0;
-    		}
-    	}
-    	// d(sum[i]) d(thick) dl(ok)
-    	
-    	if(ok && cur == 0){
-    		ans = min(ans, thick);
-    	}
-    }
-    cout << ans << endl;
+void solve() {
+	int n; cin >> n;
+	vector<int>v(n + 1);
+	vector<bool>dp(n + 2, false);
+
+	for (int i = 1; i <= n; ++i) {
+		cin >> v[i];
+	}
+
+	dp[0] = true;
+	for (int i = 1; i <= n; ++i) {
+		if ((i - v[i] - 1) >= 0 && dp[i - v[i] - 1]) {
+			dp[i] = true;
+		}
+		if (i + v[i] <= n && dp[i - 1]) {
+			dp[i+v[i]] = true;
+		}
+	}
+
+	if (dp[n]) {
+		cout << "YES" << endl;
+	}
+	else {
+		cout << "NO" << endl;
+	}
 }
 
-int32_t main(){
-  ios_base::sync_with_stdio(!cin.tie(nullptr));
-  
-  TEST
-  solve();
+int32_t main() {
+	ios_base::sync_with_stdio(!cin.tie(nullptr));
 
-  return 0;
+	TEST
+	solve();
+
+	return 0;
 }

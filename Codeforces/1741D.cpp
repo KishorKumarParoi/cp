@@ -6,7 +6,7 @@
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
-            
+
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -26,48 +26,69 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-    int n; cin >> n;
-    vector<int>v(n+1);
-    int sum[n+10] = {0};
-    
-    for(int i = 1; i <= n; ++i){
-    	cin >> v[i];
-    	sum[i] += sum[i-1] + v[i];
-    }
-    
-    int ans = n;
-    for(int i  = 1; i <= n; ++i){
-    	int cnt = 0, cur = 0, tot = 0, thick = 0;
-    	bool ok = true;
-    	
-    	for(int j = 1; j <= n; ++j){
-    		cur += v[j];
-    		cnt++;
-    		if(cur > sum[i]){
-    			ok = false;
-    			break;
-    		}
-    		if(cur == sum[i]){
-    			thick = max(cnt, thick);
-    			cur = 0;
-    			cnt = 0;
-    		}
-    	}
-    	// d(sum[i]) d(thick) dl(ok)
-    	
-    	if(ok && cur == 0){
-    		ans = min(ans, thick);
-    	}
-    }
-    cout << ans << endl;
+vector<int>v;
+int ans = 0;
+
+void Call(int l1, int r1, int l2, int r2) {
+	int maxi = 0, mini = INT_MAX;
+	for (int i = l1; i <= r1; ++i) {
+		maxi  = max(v[i], maxi);
+	}
+
+	for (int i = l2; i <= r2; i++) {
+		mini = min(v[i], mini);
+	}
+
+	// d(maxi) dl(mini)
+
+	if (maxi > mini) {
+		int p = l2;
+		for (int i = l1; i <= r1; ++i) {
+			swap(v[i], v[p++]);
+		}
+		++ans;
+	}
+
+	if (l1 == r1) return;
+
+	int mid1 = (l1 + r1) / 2;
+	int mid2 = (l2 + r2) / 2;
+
+	Call(l1, mid1, mid1 + 1, r1);
+	Call(l2, mid2, mid2 + 1, r2);
 }
 
-int32_t main(){
-  ios_base::sync_with_stdio(!cin.tie(nullptr));
-  
-  TEST
-  solve();
+void solve() {
+	int n; cin >> n;
+	v.resize(n + 1);
 
-  return 0;
+	for (int i = 1; i <= n; ++i) {
+		cin >> v[i];
+	}
+
+	ans = 0;
+	int mid = (n + 1) / 2;
+
+	if (is_sorted(v.begin() + 1, v.begin() + n + 1)) {
+		cout << 0 << endl;
+		return;
+	}
+
+	Call(1, mid, mid + 1, n );
+
+	if (is_sorted(v.begin() + 1, v.begin() + n + 1)) {
+		cout << ans << endl;
+	}
+	else {
+		cout << -1 << endl;
+	}
+}
+
+int32_t main() {
+	ios_base::sync_with_stdio(!cin.tie(nullptr));
+
+	TEST
+	solve();
+
+	return 0;
 }

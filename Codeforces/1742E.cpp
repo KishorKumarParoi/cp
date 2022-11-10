@@ -1,7 +1,7 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 30-10-22
+// 05-11-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
@@ -28,48 +28,36 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 	int n, q; cin >> n >> q;
-	vector<int>v(n);
-	for (int i = 0; i < n; ++i) {
+	vector<int>v(n + 1), height(n + 1, 0), max_height(n + 1, 0);
+	for (int i = 1; i <= n; ++i) {
 		cin >> v[i];
+		height[i] = height[i - 1] + v[i];
+		max_height[i] = max(max_height[i - 1], v[i]);
 	}
 
-	vector<pair<int, int>>qu, qu_copy;
-	for (int i = 0; i < q; ++i) {
-		int k; cin >> k;
-		qu.push_back({k, i});
-	}
+	// print(v)
+	// print(height)
+	// print(max_height)
 
-	qu_copy = qu;
-	sort(all(qu));
+	while (q--) {
+		int x; cin >> x;
+		// int id = upper_bound(all(max_height), x) - max_height.begin();
+		// d(x) d(id) dl(height[id])
+		// // cout<< height[id-1] << " ";
 
-	map<int, int>ans;
-
-	int j = 0, tot = 0;
-	for (int i = 0; i < q; ++i) {
-
-		if (j == n) {
-			ans[qu[i].first] = tot;
-			continue;
-		}
-
-		while (j < n) {
-
-			if (v[j] <= qu[i].first) {
-				tot += v[j];
-				j++;
+		int l = 1, r = n, ans = 0;
+		while (l <= r) {
+			int mid = (l + r) / 2;
+			if (max_height[mid] <= x) {
+				ans = height[mid];
+				l = mid + 1;
 			}
 			else {
-				ans[qu[i].first] = tot;
-				break;
+				r = mid - 1;
 			}
 		}
-		if (j == n) {
-			ans[qu[i].first] = tot;
-		}
-	}
 
-	for (int i = 0; i < q; ++i) {
-		cout << ans[qu_copy[i].first] << " ";
+		cout << ans << " ";
 	}
 	cout << endl;
 }

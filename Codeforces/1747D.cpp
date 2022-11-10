@@ -1,12 +1,12 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 02-11-22
+// 10-11-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
-            
+
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -26,48 +26,53 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-    int n; cin >> n;
-    vector<int>v(n+1);
-    int sum[n+10] = {0};
-    
-    for(int i = 1; i <= n; ++i){
-    	cin >> v[i];
-    	sum[i] += sum[i-1] + v[i];
-    }
-    
-    int ans = n;
-    for(int i  = 1; i <= n; ++i){
-    	int cnt = 0, cur = 0, tot = 0, thick = 0;
-    	bool ok = true;
-    	
-    	for(int j = 1; j <= n; ++j){
-    		cur += v[j];
-    		cnt++;
-    		if(cur > sum[i]){
-    			ok = false;
-    			break;
-    		}
-    		if(cur == sum[i]){
-    			thick = max(cnt, thick);
-    			cur = 0;
-    			cnt = 0;
-    		}
-    	}
-    	// d(sum[i]) d(thick) dl(ok)
-    	
-    	if(ok && cur == 0){
-    		ans = min(ans, thick);
-    	}
-    }
-    cout << ans << endl;
+bool CountSubarrayZero(vector<int>&v, int n, int m) {
+	unordered_map<int, int>hashTable;
+	int curSum = 0, ans = 0;
+	hashTable[0] = 1;
+
+	for (int i = 0; i < n; ++i) {
+		curSum ^= v[i];
+		if (hashTable[curSum ^ m] > 0) {
+			ans += hashTable[curSum ^ m];
+			// d(i) d(curSum)  dl(hashTable[curSum ^ m])
+			if (i % 2 == 0)return true;
+		}
+		hashTable[curSum]++;
+	}
+
+	// dl(ans)
+	// PRINT(hashTable)
+	return false;
 }
 
-int32_t main(){
-  ios_base::sync_with_stdio(!cin.tie(nullptr));
-  
-  TEST
-  solve();
+void solve() {
+	int n, q; cin >> n >> q;
+	vector<int>v(n);
+	for (int i = 0; i < n; ++i) {
+		cin >> v[i];
+	}
 
-  return 0;
+	while (q--) {
+		int l, r; cin >> l >> r;
+		l--, r--;
+		vector<int>a(v.begin() + l, v.begin() + r + 1);
+		// print(a)
+		bool ans = CountSubarrayZero(a, r - l + 1, 0);
+		if (ans) {
+			cout << 1 << endl;
+		}
+		else {
+			cout << -1 << endl;
+		}
+	}
+}
+
+int32_t main() {
+	ios_base::sync_with_stdio(!cin.tie(nullptr));
+
+	// TEST
+	solve();
+
+	return 0;
 }
