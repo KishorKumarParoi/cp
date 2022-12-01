@@ -1,12 +1,12 @@
 // Let's Begin Mara Khawa ^+^
 // author : @I_Love_My_Sherniii
 
-// 27-08-22
+// 10-11-22
 #include <bits/stdc++.h>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #pragma GCC optimization("unroll-loops")
-            
+
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -26,14 +26,31 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-  
+void solve() {
+	int n; cin >> n;
+
+	string s = "";
+	for (int i = 0; i < n; ++i) {
+		s += "BAN";
+	}
+
+	cout << n / 2 + n % 2 << endl;
+	int l = 1, r = 3 * n;
+	dl(s)
+	while (l < r) {
+		swap(s[l - 1], s[r - 1]);
+		cout << l << " " << r << endl;
+		l += 3;
+		r -= 3;
+		dl(s)
+	}
 }
 
-int32_t main(){
-  ios_base::sync_with_stdio(!cin.tie(nullptr));
-  
-  solve();
+int32_t main() {
+	ios_base::sync_with_stdio(!cin.tie(nullptr));
 
-  return 0;
+	TEST
+	solve();
+
+	return 0;
 }
