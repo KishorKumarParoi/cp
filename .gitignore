@@ -1,0 +1,29 @@
+# Compiled Binaries & Executables
+*.exe
+*.out
+*.o
+*.a
+*.so
+*.dylib
+*.class
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary & session files
+input.txt
+output.txt
+in.txt
+out.txt
+.cp-sessions/
+runSettings.json
+
+# macOS metadata
+.DS_Store
+
+# IDE / Editor artifacts
+.cph/
+.idea/
+*.swp
+*~
