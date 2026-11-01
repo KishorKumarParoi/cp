@@ -9,6 +9,7 @@
     "editor.formatOnPaste": false,
     "editor.formatOnType": false
   },
-  "C_Cpp.formatting": "disabled"
+  "C_Cpp.formatting": "disabled",
+  "codingtestkit.toolPath.cpp": "/opt/homebrew/bin/g++-16"
 }
 
