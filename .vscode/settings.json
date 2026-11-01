@@ -10,6 +10,23 @@
     "editor.formatOnType": false
   },
   "C_Cpp.formatting": "disabled",
-  "codingtestkit.toolPath.cpp": "/opt/homebrew/bin/g++-16"
+  "codingtestkit.toolPath.cpp": "/opt/homebrew/bin/g++-16",
+  "chat.tools.terminal.autoApprove": {
+    "/^find \\. -maxdepth 3 -type f \\\\\\( -name '\\*watch\\*' -o -name '\\*hook\\*' -o -name 'Makefile' -o -name 'package\\.json' -o -name '\\*\\.sh' \\\\\\) -print; printf '\\\\n-- git config --\\\\n'; git config --local --list$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^python3 -m py_compile scripts/watch_and_stage\\.py && git diff --no-index -- /dev/null scripts/watch_and_stage\\.py \\|\\| true$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^diff -u template\\.cpp B_Stakes_and_Shapes\\.cpp \\|\\| true; printf '\\\\n-- template bytes --\\\\n'; tail -c 20 template\\.cpp \\| od -An -t x1; printf '\\\\n-- target bytes --\\\\n'; tail -c 20 B_Stakes_and_Shapes\\.cpp \\| od -An -t x1$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^python3 scripts/watch_and_stage\\.py --interval 0\\.2$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
 }
-
